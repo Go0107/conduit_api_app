@@ -24,6 +24,15 @@ class ArticlesController < ApplicationController
     end
   end
 
+  def show
+    render json: { article: @article }, status: :created
+  end
+
+  def destroy
+    @article.destroy
+    head :no_content
+  end
+
   private
 
   def set_article
@@ -31,6 +40,6 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :description, :body)
+    params.require(:article).permit(:title, :description, :body, :tag)
   end
 end
