@@ -14,6 +14,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def login
+    @user = User.find_by(params.require(:user).permit(:email, :password))
+    if @user
+      render json: { user: @user }, status: :created
+    else
+      render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def set_user
@@ -21,6 +30,6 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :password)
+    params.require(:user).permit(:username, :email, :password)
   end
 end
